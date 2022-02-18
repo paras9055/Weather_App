@@ -30,10 +30,10 @@ class Location {
   String? name;
   String? region;
   String? country;
-  double? lat;
-  double? lon;
+  num? lat;
+  num? lon;
   String? tzId;
-  int? localtimeEpoch;
+  num? localtimeEpoch;
   String? localtime;
 
   Location({this.name, this.region, this.country, this.lat, this.lon, this.tzId, this.localtimeEpoch, this.localtime});
@@ -64,29 +64,29 @@ class Location {
 }
 
 class Current {
-  int? lastUpdatedEpoch;
+  num? lastUpdatedEpoch;
   String? lastUpdated;
-  int? tempC;
-  double? tempF;
-  int? isDay;
+  num? tempC;
+  num? tempF;
+  num? isDay;
   Condition? condition;
-  double? windMph;
-  double? windKph;
-  int? windDegree;
+  num? windMph;
+  num? windKph;
+  num? windDegree;
   String? windDir;
-  int? pressureMb;
-  double? pressureIn;
-  int? precipMm;
-  int? precipIn;
-  int? humidity;
-  int? cloud;
-  double? feelslikeC;
-  double? feelslikeF;
-  int? visKm;
-  int? visMiles;
-  int? uv;
-  double? gustMph;
-  double? gustKph;
+  num? pressureMb;
+  num? pressureIn;
+  num? precipMm;
+  num? precipIn;
+  num? humidity;
+  num? cloud;
+  num? feelslikeC;
+  num? feelslikeF;
+  num? visKm;
+  num? visMiles;
+  num? uv;
+  num? gustMph;
+  num? gustKph;
   AirQuality? airQuality;
 
   Current(
@@ -179,7 +179,7 @@ class Current {
 class Condition {
   String? text;
   String? icon;
-  int? code;
+  num? code;
 
   Condition({this.text, this.icon, this.code});
 
@@ -199,14 +199,14 @@ class Condition {
 }
 
 class AirQuality {
-  int? co;
-  double? no2;
-  double? o3;
-  double? so2;
-  double? pm25;
-  double? pm10;
-  int? usEpaIndex;
-  int? gbDefraIndex;
+  num? co;
+  num? no2;
+  num? o3;
+  num? so2;
+  num? pm25;
+  num? pm10;
+  num? usEpaIndex;
+  num? gbDefraIndex;
 
   AirQuality({this.co, this.no2, this.o3, this.so2, this.pm25, this.pm10, this.usEpaIndex, this.gbDefraIndex});
 
@@ -260,7 +260,7 @@ class Forecast {
 
 class Forecastday {
   String? date;
-  int? dateEpoch;
+  num? dateEpoch;
   Day? day;
   Astro? astro;
   List<Hour>? hour;
@@ -298,25 +298,25 @@ class Forecastday {
 }
 
 class Day {
-  double? maxtempC;
-  double? maxtempF;
-  double? mintempC;
-  double? mintempF;
-  double? avgtempC;
-  double? avgtempF;
-  double? maxwindMph;
-  double? maxwindKph;
-  double? totalprecipMm;
-  double? totalprecipIn;
-  double? avgvisKm;
-  int? avgvisMiles;
-  int? avghumidity;
-  int? dailyWillItRain;
-  int? dailyChanceOfRain;
-  int? dailyWillItSnow;
-  int? dailyChanceOfSnow;
+  num? maxtempC;
+  num? maxtempF;
+  num? mintempC;
+  num? mintempF;
+  num? avgtempC;
+  num? avgtempF;
+  num? maxwindMph;
+  num? maxwindKph;
+  num? totalprecipMm;
+  num? totalprecipIn;
+  num? avgvisKm;
+  num? avgvisMiles;
+  num? avghumidity;
+  num? dailyWillItRain;
+  num? dailyChanceOfRain;
+  num? dailyWillItSnow;
+  num? dailyChanceOfSnow;
   Condition? condition;
-  int? uv;
+  num? uv;
 
   Day(
       {this.maxtempC,
@@ -420,39 +420,39 @@ class Astro {
 }
 
 class Hour {
-  int? timeEpoch;
+  num? timeEpoch;
   String? time;
-  double? tempC;
-  double? tempF;
-  int? isDay;
+  num? tempC;
+  num? tempF;
+  num? isDay;
   Condition? condition;
-  double? windMph;
-  double? windKph;
-  int? windDegree;
+  num? windMph;
+  num? windKph;
+  num? windDegree;
   String? windDir;
-  int? pressureMb;
-  double? pressureIn;
-  double? precipMm;
-  double? precipIn;
-  int? humidity;
-  int? cloud;
-  double? feelslikeC;
-  double? feelslikeF;
-  double? windchillC;
-  double? windchillF;
-  double? heatindexC;
-  double? heatindexF;
-  double? dewpointC;
-  double? dewpointF;
-  int? willItRain;
-  int? chanceOfRain;
-  int? willItSnow;
-  int? chanceOfSnow;
-  int? visKm;
-  int? visMiles;
-  double? gustMph;
-  double? gustKph;
-  int? uv;
+  num? pressureMb;
+  num? pressureIn;
+  num? precipMm;
+  num? precipIn;
+  num? humidity;
+  num? cloud;
+  num? feelslikeC;
+  num? feelslikeF;
+  num? windchillC;
+  num? windchillF;
+  num? heatindexC;
+  num? heatindexF;
+  num? dewpointC;
+  num? dewpointF;
+  num? willItRain;
+  num? chanceOfRain;
+  num? willItSnow;
+  num? chanceOfSnow;
+  num? visKm;
+  num? visMiles;
+  num? gustMph;
+  num? gustKph;
+  num? uv;
 
   Hour(
       {this.timeEpoch,

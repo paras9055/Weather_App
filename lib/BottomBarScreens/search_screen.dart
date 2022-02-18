@@ -104,7 +104,7 @@ class SearchScreen extends ConsumerWidget {
                                         Row(
                                           children: [
                                             Text(data.current?.windKph.toString() ?? ""),
-                                            const Text("%"),
+                                            const Text(" Kph"),
                                           ],
                                         ),
                                       ],

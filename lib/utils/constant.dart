@@ -3,6 +3,8 @@ class Constant {
 
   static const SEARCH_URL = "http://api.weatherapi.com/v1/current.json";
 
+  static const sportsUrl = "http://api.weatherapi.com/v1/sports.json?key=898dd824c2594f409ca93335221202&q=india";
+
   static const forcastUrl =
-      "http://api.weatherapi.com/v1/forecast.json?key=898dd824c2594f409ca93335221202&q=London&days=7&aqi=yes&alerts=no";
+      "http://api.weatherapi.com/v1/forecast.json?key=898dd824c2594f409ca93335221202&q=Sadhaura&days=7&aqi=yes&alerts=no";
 }

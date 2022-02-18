@@ -1,21 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/Models/weahter_res_model.dart';
+import 'package:weather_app/Models/weather_forcast_model.dart';
 import 'package:weather_app/Repositories/repo.dart';
-import 'package:intl/intl.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:weather_app/screens/hourly_weather_screen.dart';
+import 'package:weather_app/screens/weather_by_time.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // DateTime now = DateTime.now();
-    // String formattedDate = DateFormat("dd-MM-yyyy").format(now);
-
-    return ref.watch(weatherProvider).when(
+    return ref.watch(forcastWeatherProvider).when(
           data: (data) {
             return Container(
               height: double.maxFinite,
@@ -42,11 +38,9 @@ class HomeScreen extends ConsumerWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
-                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 18)],
+                            boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5)],
                             color: Colors.white,
                           ),
-                          // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                          // elevation: 10,
                           child: Padding(
                             padding: const EdgeInsets.all(24),
                             child: Column(
@@ -106,7 +100,7 @@ class HomeScreen extends ConsumerWidget {
                                 Row(
                                   children: [
                                     Text(data.current?.windKph.toString() ?? ""),
-                                    const Text("%"),
+                                    const Text(" Kph"),
                                   ],
                                 ),
                               ],
@@ -145,20 +139,235 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   const Expanded(child: SizedBox()),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 5,
-                    child: ListView.separated(
-                      itemCount: 7,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (_, i) => const SizedBox(width: 16),
-                      itemBuilder: (_, i) => weekTempData(
-                        data: data,
-                        day: "Mon",
-                        dayTemp: data.current?.tempC.toString() ?? "",
-                      ),
+                    height: MediaQuery.of(context).size.height / 6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) {
+                                  return HourlyWeather(
+                                    listView: ListView.builder(
+                                      itemCount: data.forecast?.forecastday?.elementAt(0).hour?.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(8),
+                                              color: Colors.white,
+                                              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5)]),
+                                          child: InkWell(
+                                            onTap: () {
+                                              var element = data.forecast!.forecastday!.elementAt(0).hour!.elementAt(index);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (builder) => WeatherByTime(
+                                                            tempC: element.tempC.toString() + " \u2103",
+                                                            humidity: element.humidity.toString() + "%",
+                                                            pressure: element.pressureIn.toString(),
+                                                            rainProbability: element.chanceOfRain.toString(),
+                                                            tempF: element.tempF.toString(),
+                                                            uvIndex: element.uv.toString(),
+                                                            windSpeed: element.windKph.toString(),
+                                                          )));
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(18),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    data.forecast!.forecastday!
+                                                        .elementAt(0)
+                                                        .hour!
+                                                        .elementAt(index)
+                                                        .time
+                                                        .toString(),
+                                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    data.forecast!.forecastday!
+                                                            .elementAt(0)
+                                                            .hour!
+                                                            .elementAt(index)
+                                                            .tempC
+                                                            .toString() +
+                                                        " \u2103",
+                                                    style: const TextStyle(fontSize: 18),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: weekTempData(
+                            data: data,
+                            date: data.forecast?.forecastday?.elementAt(0).date.toString() ?? "",
+                            dayTemp: data.current?.tempC.toString() ?? "",
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) => HourlyWeather(
+                                  listView: ListView.builder(
+                                    itemCount: data.forecast?.forecastday?.elementAt(1).hour?.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: Colors.white,
+                                          boxShadow: const [
+                                            BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5),
+                                          ],
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            var element = data.forecast!.forecastday!.elementAt(1).hour!.elementAt(index);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (builder) => WeatherByTime(
+                                                  tempC: element.tempC.toString() + " \u2103",
+                                                  humidity: element.humidity.toString() + "%",
+                                                  pressure: element.pressureIn.toString(),
+                                                  rainProbability: element.chanceOfRain.toString(),
+                                                  tempF: element.tempF.toString(),
+                                                  uvIndex: element.uv.toString(),
+                                                  windSpeed: element.windKph.toString(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(18),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  data.forecast!.forecastday!.elementAt(1).hour!.elementAt(index).time.toString(),
+                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  data.forecast!.forecastday!
+                                                          .elementAt(1)
+                                                          .hour!
+                                                          .elementAt(index)
+                                                          .tempC
+                                                          .toString() +
+                                                      " \u2103",
+                                                  style: const TextStyle(fontSize: 18),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: weekTempData(
+                            data: data,
+                            date: data.forecast?.forecastday?.elementAt(1).date.toString() ?? "",
+                            dayTemp: data.forecast?.forecastday?.elementAt(1).day?.maxtempC.toString() ?? "",
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) => HourlyWeather(
+                                  listView: ListView.builder(
+                                    itemCount: data.forecast?.forecastday?.elementAt(2).hour?.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: Colors.white,
+                                          boxShadow: const [
+                                            BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5),
+                                          ],
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            var element = data.forecast!.forecastday!.elementAt(2).hour!.elementAt(index);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (builder) => WeatherByTime(
+                                                  tempC: element.tempC.toString() + " \u2103",
+                                                  humidity: element.humidity.toString() + "%",
+                                                  pressure: element.pressureIn.toString(),
+                                                  rainProbability: element.chanceOfRain.toString(),
+                                                  tempF: element.tempF.toString(),
+                                                  uvIndex: element.uv.toString(),
+                                                  windSpeed: element.windKph.toString(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(18),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  data.forecast!.forecastday!.elementAt(2).hour!.elementAt(index).time.toString(),
+                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  data.forecast!.forecastday!
+                                                          .elementAt(2)
+                                                          .hour!
+                                                          .elementAt(index)
+                                                          .tempC
+                                                          .toString() +
+                                                      " \u2103",
+                                                  style: const TextStyle(fontSize: 18),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: weekTempData(
+                            data: data,
+                            date: data.forecast?.forecastday?.elementAt(2).date.toString() ?? "",
+                            dayTemp: data.forecast?.forecastday?.elementAt(2).day?.maxtempC.toString() ?? "",
+                          ),
+                        ),
+                      ],
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 18)
                 ],
               ),
             );
@@ -180,9 +389,9 @@ class HomeScreen extends ConsumerWidget {
         );
   }
 
-  Widget weekTempData({required WeatherResModel data, required String day, required String dayTemp}) {
+  Widget weekTempData({required ForcastResModel data, required String date, required String dayTemp}) {
     return AspectRatio(
-      aspectRatio: 1 / 1.4,
+      aspectRatio: 1.3 / 1.5,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -195,9 +404,12 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(day),
-              const Divider(height: 1, thickness: 1, color: Colors.red, indent: 12, endIndent: 12),
-              Text(dayTemp + " \u2103"),
+              Text(date, style: const TextStyle(fontWeight: FontWeight.bold)),
+              const Divider(height: 1, thickness: 1, color: Colors.red, indent: 6, endIndent: 6),
+              Text(
+                dayTemp + " \u2103",
+                style: const TextStyle(color: Colors.black),
+              ),
             ],
           ),
         ),

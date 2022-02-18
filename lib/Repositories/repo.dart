@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app/Models/sports_res_model.dart';
 import 'package:weather_app/Models/weahter_res_model.dart';
 import 'package:weather_app/Models/weather_forcast_model.dart';
 import 'package:weather_app/Models/weather_req_model.dart';
@@ -17,6 +18,15 @@ final weatherProvider = FutureProvider<WeatherResModel>((ref) async {
   print(response.statusCode);
 
   return WeatherResModel.fromJson(jsonDecode(response.body));
+});
+
+final sportsProvider = FutureProvider<SportsResModel>((ref) async {
+  var response = await http.get(Uri.parse(Constant.sportsUrl));
+
+  print('response: ');
+  print(response.statusCode);
+
+  return SportsResModel.fromJson(jsonDecode(response.body));
 });
 
 final forcastWeatherProvider = FutureProvider<ForcastResModel>((ref) async {

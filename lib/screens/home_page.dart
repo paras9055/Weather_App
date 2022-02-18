@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/BottomBarScreens/home_screen.dart';
 import 'package:weather_app/BottomBarScreens/search_screen.dart';
+import 'package:weather_app/BottomBarScreens/sports_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> list = [
     const HomeScreen(),
     const SearchScreen(),
+    const SportsScreen(),
   ];
 
   @override
@@ -41,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
           items: const [
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(CupertinoIcons.search), label: "Search"),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.sportscourt), label: "Sports"),
           ],
         ));
   }
