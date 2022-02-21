@@ -28,7 +28,7 @@ class NoDataMessage extends StatelessWidget {
 
 Widget weekTempData({required ForcastResModel data, required String date, required String dayTemp}) {
   return AspectRatio(
-    aspectRatio: 1.3 / 1.5,
+    aspectRatio: 1.3 / 1.6,
     child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),

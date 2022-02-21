@@ -10,26 +10,17 @@ import 'package:weather_app/utils/constant.dart';
 final weatherProvider = FutureProvider<WeatherResModel>((ref) async {
   var response = await http.get(Uri.parse(Constant.uRL));
 
-  // print('response: ');
-  // print(response.statusCode);
-
   return WeatherResModel.fromJson(jsonDecode(response.body));
 });
 
 final sportsProvider = FutureProvider<SportsResModel>((ref) async {
   var response = await http.get(Uri.parse(Constant.sportsUrl));
 
-  // print('response: ');
-  // print(response.statusCode);
-
   return SportsResModel.fromJson(jsonDecode(response.body));
 });
 
 final forcastWeatherProvider = FutureProvider<ForcastResModel>((ref) async {
   var response = await http.get(Uri.parse(Constant.forcastUrl));
-
-  // print('response: ');
-  // print(response.statusCode);
 
   return ForcastResModel.fromJson(jsonDecode(response.body));
 });

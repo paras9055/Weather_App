@@ -27,7 +27,7 @@ class FootballNewsScreen extends ConsumerWidget {
                       ),
                     ),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      margin: EdgeInsets.only(bottom: 18, left: 18, right: 18, top: index == 0 ? 18 : 0),
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
