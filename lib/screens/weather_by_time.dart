@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/Repositories/repo.dart';
 
-class WeatherByTime extends ConsumerWidget {
+// ignore: must_be_immutable
+class WeatherByTime extends StatelessWidget {
   WeatherByTime({
     Key? key,
     required this.tempC,
@@ -23,7 +22,7 @@ class WeatherByTime extends ConsumerWidget {
   String humidity;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(18.0),

@@ -1,21 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/Models/sports_res_model.dart';
 import 'package:weather_app/Models/weahter_res_model.dart';
 import 'package:weather_app/Models/weather_forcast_model.dart';
-import 'package:weather_app/Models/weather_req_model.dart';
 import 'package:weather_app/Provider/provider.dart';
 import 'package:weather_app/utils/constant.dart';
 
 final weatherProvider = FutureProvider<WeatherResModel>((ref) async {
-  var response = await http.get(Uri.parse(Constant.URL));
+  var response = await http.get(Uri.parse(Constant.uRL));
 
-  print('response: ');
-  print(response.statusCode);
+  // print('response: ');
+  // print(response.statusCode);
 
   return WeatherResModel.fromJson(jsonDecode(response.body));
 });
@@ -23,8 +19,8 @@ final weatherProvider = FutureProvider<WeatherResModel>((ref) async {
 final sportsProvider = FutureProvider<SportsResModel>((ref) async {
   var response = await http.get(Uri.parse(Constant.sportsUrl));
 
-  print('response: ');
-  print(response.statusCode);
+  // print('response: ');
+  // print(response.statusCode);
 
   return SportsResModel.fromJson(jsonDecode(response.body));
 });
@@ -32,8 +28,8 @@ final sportsProvider = FutureProvider<SportsResModel>((ref) async {
 final forcastWeatherProvider = FutureProvider<ForcastResModel>((ref) async {
   var response = await http.get(Uri.parse(Constant.forcastUrl));
 
-  print('response: ');
-  print(response.statusCode);
+  // print('response: ');
+  // print(response.statusCode);
 
   return ForcastResModel.fromJson(jsonDecode(response.body));
 });
@@ -44,14 +40,17 @@ final weatherSearcProvider = FutureProvider<WeatherResModel>((ref) async {
   String q = query == '' || query.isEmpty ? 'New Delhi' : query;
 
   var response = await http.post(
-    Uri.parse(Constant.SEARCH_URL),
+    Uri.parse(Constant.searchUrl),
     body: {
       'q': q,
       'key': '898dd824c2594f409ca93335221202',
     },
   );
-  print('response12343: ');
-  print(response.statusCode);
 
-  return WeatherResModel.fromJson(jsonDecode(response.body));
+  var result = WeatherResModel.fromJson(jsonDecode(response.body));
+
+  if (response.statusCode == 200) {
+    return result;
+  }
+  throw ("No matching location found.");
 });

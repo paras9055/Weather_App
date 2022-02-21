@@ -29,22 +29,23 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: list.elementAt(currentIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.black,
-          unselectedItemColor: Colors.grey,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(CupertinoIcons.search), label: "Search"),
-            BottomNavigationBarItem(icon: Icon(CupertinoIcons.sportscourt), label: "Sports"),
-          ],
-        ));
+      body: list.elementAt(currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(CupertinoIcons.sportscourt), label: "Sports"),
+        ],
+      ),
+    );
   }
 }

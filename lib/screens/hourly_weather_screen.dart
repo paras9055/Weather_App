@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/Models/weather_forcast_model.dart';
 import 'package:weather_app/Repositories/repo.dart';
-import 'package:weather_app/screens/weather_by_time.dart';
 
+// ignore: must_be_immutable
 class HourlyWeather extends ConsumerWidget {
   HourlyWeather({Key? key, required this.listView}) : super(key: key);
 
-  // String time;
-  // String temp;
   ListView listView;
 
   @override

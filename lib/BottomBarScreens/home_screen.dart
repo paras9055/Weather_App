@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/Models/weather_forcast_model.dart';
 import 'package:weather_app/Repositories/repo.dart';
+import 'package:weather_app/screens/MyWidgets/custom_widgets.dart';
 import 'package:weather_app/screens/hourly_weather_screen.dart';
 import 'package:weather_app/screens/weather_by_time.dart';
 
@@ -38,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
-                            boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5)],
+                            boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 12, spreadRadius: -5)],
                             color: Colors.white,
                           ),
                           child: Padding(
@@ -53,12 +53,12 @@ class HomeScreen extends ConsumerWidget {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          data.current!.tempC.toString() + " \u2103",
+                                          (data.current?.tempC?.ceil().toString() ?? "") + " \u2103",
                                           style: const TextStyle(color: Colors.black, fontSize: 40),
                                         ),
                                         const SizedBox(height: 10),
                                         Text(
-                                          data.current!.tempF.toString() + " \u2109",
+                                          (data.current?.tempF?.ceil().toString() ?? "") + " \u2109",
                                           style: const TextStyle(color: Colors.grey, fontSize: 26),
                                         ),
                                       ],
@@ -154,27 +154,30 @@ class HomeScreen extends ConsumerWidget {
                                       itemCount: data.forecast?.forecastday?.elementAt(0).hour?.length,
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                          margin: EdgeInsets.only(
+                                              bottom: index == 23 ? 10 : 14, left: 20, right: 20, top: index == 0 ? 5 : 0),
                                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
+                                              borderRadius: BorderRadius.circular(18),
                                               color: Colors.white,
-                                              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5)]),
+                                              boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 12, spreadRadius: -5)]),
                                           child: InkWell(
                                             onTap: () {
-                                              var element = data.forecast!.forecastday!.elementAt(0).hour!.elementAt(index);
+                                              var element = data.forecast?.forecastday?.elementAt(0).hour?.elementAt(index);
                                               Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (builder) => WeatherByTime(
-                                                            tempC: element.tempC.toString() + " \u2103",
-                                                            humidity: element.humidity.toString() + "%",
-                                                            pressure: element.pressureIn.toString(),
-                                                            rainProbability: element.chanceOfRain.toString(),
-                                                            tempF: element.tempF.toString(),
-                                                            uvIndex: element.uv.toString(),
-                                                            windSpeed: element.windKph.toString(),
-                                                          )));
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (builder) => WeatherByTime(
+                                                    tempC: (element?.tempC?.ceil().toString() ?? "") + " \u2103",
+                                                    humidity: (element?.humidity.toString() ?? "") + "%",
+                                                    pressure: element?.pressureIn.toString() ?? "",
+                                                    rainProbability: element?.chanceOfRain.toString() ?? "",
+                                                    tempF: element?.tempF?.ceil().toString() ?? "",
+                                                    uvIndex: element?.uv.toString() ?? "",
+                                                    windSpeed: element?.windKph.toString() ?? "",
+                                                  ),
+                                                ),
+                                              );
                                             },
                                             child: Padding(
                                               padding: const EdgeInsets.all(18),
@@ -188,14 +191,15 @@ class HomeScreen extends ConsumerWidget {
                                                         .elementAt(index)
                                                         .time
                                                         .toString(),
-                                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                    style: const TextStyle(fontSize: 18),
                                                   ),
                                                   Text(
                                                     data.forecast!.forecastday!
                                                             .elementAt(0)
                                                             .hour!
                                                             .elementAt(index)
-                                                            .tempC
+                                                            .tempC!
+                                                            .ceil()
                                                             .toString() +
                                                         " \u2103",
                                                     style: const TextStyle(fontSize: 18),
@@ -215,7 +219,7 @@ class HomeScreen extends ConsumerWidget {
                           child: weekTempData(
                             data: data,
                             date: data.forecast?.forecastday?.elementAt(0).date.toString() ?? "",
-                            dayTemp: data.current?.tempC.toString() ?? "",
+                            dayTemp: data.current?.tempC?.ceil().toString() ?? "",
                           ),
                         ),
                         InkWell(
@@ -228,29 +232,30 @@ class HomeScreen extends ConsumerWidget {
                                     itemCount: data.forecast?.forecastday?.elementAt(1).hour?.length,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                        margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                        margin: EdgeInsets.only(
+                                            bottom: index == 23 ? 10 : 14, left: 20, right: 20, top: index == 0 ? 5 : 0),
                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(18),
                                           color: Colors.white,
                                           boxShadow: const [
-                                            BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5),
+                                            BoxShadow(color: Colors.grey, blurRadius: 12, spreadRadius: -5),
                                           ],
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            var element = data.forecast!.forecastday!.elementAt(1).hour!.elementAt(index);
+                                            var element = data.forecast?.forecastday?.elementAt(1).hour?.elementAt(index);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (builder) => WeatherByTime(
-                                                  tempC: element.tempC.toString() + " \u2103",
-                                                  humidity: element.humidity.toString() + "%",
-                                                  pressure: element.pressureIn.toString(),
-                                                  rainProbability: element.chanceOfRain.toString(),
-                                                  tempF: element.tempF.toString(),
-                                                  uvIndex: element.uv.toString(),
-                                                  windSpeed: element.windKph.toString(),
+                                                  tempC: (element?.tempC?.ceil().toString() ?? "") + " \u2103",
+                                                  humidity: (element?.humidity.toString() ?? "") + "%",
+                                                  pressure: element?.pressureIn.toString() ?? "",
+                                                  rainProbability: element?.chanceOfRain.toString() ?? "",
+                                                  tempF: element?.tempF?.ceil().toString() ?? "",
+                                                  uvIndex: element?.uv.toString() ?? "",
+                                                  windSpeed: element?.windKph.toString() ?? "",
                                                 ),
                                               ),
                                             );
@@ -262,14 +267,15 @@ class HomeScreen extends ConsumerWidget {
                                               children: [
                                                 Text(
                                                   data.forecast!.forecastday!.elementAt(1).hour!.elementAt(index).time.toString(),
-                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                  style: const TextStyle(fontSize: 18),
                                                 ),
                                                 Text(
                                                   data.forecast!.forecastday!
                                                           .elementAt(1)
                                                           .hour!
                                                           .elementAt(index)
-                                                          .tempC
+                                                          .tempC!
+                                                          .ceil()
                                                           .toString() +
                                                       " \u2103",
                                                   style: const TextStyle(fontSize: 18),
@@ -288,7 +294,7 @@ class HomeScreen extends ConsumerWidget {
                           child: weekTempData(
                             data: data,
                             date: data.forecast?.forecastday?.elementAt(1).date.toString() ?? "",
-                            dayTemp: data.forecast?.forecastday?.elementAt(1).day?.maxtempC.toString() ?? "",
+                            dayTemp: data.forecast?.forecastday?.elementAt(1).day?.maxtempC?.ceil().toString() ?? "",
                           ),
                         ),
                         InkWell(
@@ -301,29 +307,30 @@ class HomeScreen extends ConsumerWidget {
                                     itemCount: data.forecast?.forecastday?.elementAt(2).hour?.length,
                                     itemBuilder: (context, index) {
                                       return Container(
-                                        margin: EdgeInsets.only(bottom: index == 23 ? 0 : 20, left: 20, right: 20),
+                                        margin: EdgeInsets.only(
+                                            bottom: index == 23 ? 10 : 14, left: 20, right: 20, top: index == 0 ? 5 : 0),
                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(18),
                                           color: Colors.white,
                                           boxShadow: const [
-                                            BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5),
+                                            BoxShadow(color: Colors.grey, blurRadius: 12, spreadRadius: -5),
                                           ],
                                         ),
                                         child: InkWell(
                                           onTap: () {
-                                            var element = data.forecast!.forecastday!.elementAt(2).hour!.elementAt(index);
+                                            var element = data.forecast?.forecastday?.elementAt(2).hour?.elementAt(index);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (builder) => WeatherByTime(
-                                                  tempC: element.tempC.toString() + " \u2103",
-                                                  humidity: element.humidity.toString() + "%",
-                                                  pressure: element.pressureIn.toString(),
-                                                  rainProbability: element.chanceOfRain.toString(),
-                                                  tempF: element.tempF.toString(),
-                                                  uvIndex: element.uv.toString(),
-                                                  windSpeed: element.windKph.toString(),
+                                                  tempC: (element?.tempC?.ceil().toString() ?? "") + " \u2103",
+                                                  humidity: (element?.humidity.toString() ?? "") + "%",
+                                                  pressure: element?.pressureIn.toString() ?? "",
+                                                  rainProbability: element?.chanceOfRain.toString() ?? "",
+                                                  tempF: element?.tempF?.ceil().toString() ?? "",
+                                                  uvIndex: element?.uv.toString() ?? "",
+                                                  windSpeed: element?.windKph.toString() ?? "",
                                                 ),
                                               ),
                                             );
@@ -334,15 +341,22 @@ class HomeScreen extends ConsumerWidget {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  data.forecast!.forecastday!.elementAt(2).hour!.elementAt(index).time.toString(),
-                                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                  data.forecast?.forecastday
+                                                          ?.elementAt(2)
+                                                          .hour
+                                                          ?.elementAt(index)
+                                                          .time
+                                                          .toString() ??
+                                                      "",
+                                                  style: const TextStyle(fontSize: 18),
                                                 ),
                                                 Text(
                                                   data.forecast!.forecastday!
                                                           .elementAt(2)
                                                           .hour!
                                                           .elementAt(index)
-                                                          .tempC
+                                                          .tempC!
+                                                          .ceil()
                                                           .toString() +
                                                       " \u2103",
                                                   style: const TextStyle(fontSize: 18),
@@ -361,7 +375,7 @@ class HomeScreen extends ConsumerWidget {
                           child: weekTempData(
                             data: data,
                             date: data.forecast?.forecastday?.elementAt(2).date.toString() ?? "",
-                            dayTemp: data.forecast?.forecastday?.elementAt(2).day?.maxtempC.toString() ?? "",
+                            dayTemp: data.forecast?.forecastday?.elementAt(2).day?.maxtempC?.ceil().toString() ?? "",
                           ),
                         ),
                       ],
@@ -387,33 +401,5 @@ class HomeScreen extends ConsumerWidget {
           },
           loading: () => const Center(child: CircularProgressIndicator()),
         );
-  }
-
-  Widget weekTempData({required ForcastResModel data, required String date, required String dayTemp}) {
-    return AspectRatio(
-      aspectRatio: 1.3 / 1.5,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 20, spreadRadius: -5)],
-          color: Colors.white,
-        ),
-        margin: EdgeInsets.zero,
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(date, style: const TextStyle(fontWeight: FontWeight.bold)),
-              const Divider(height: 1, thickness: 1, color: Colors.red, indent: 6, endIndent: 6),
-              Text(
-                dayTemp + " \u2103",
-                style: const TextStyle(color: Colors.black),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

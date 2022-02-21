@@ -1,7 +1,7 @@
 class Constant {
-  static const URL = "http://api.weatherapi.com/v1/current.json?key=898dd824c2594f409ca93335221202&q=sadhaura";
+  static const uRL = "http://api.weatherapi.com/v1/current.json?key=898dd824c2594f409ca93335221202&q=sadhaura";
 
-  static const SEARCH_URL = "http://api.weatherapi.com/v1/current.json";
+  static const searchUrl = "http://api.weatherapi.com/v1/current.json";
 
   static const sportsUrl = "http://api.weatherapi.com/v1/sports.json?key=898dd824c2594f409ca93335221202&q=india";
 
